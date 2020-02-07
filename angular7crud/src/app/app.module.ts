@@ -8,7 +8,8 @@ import { GstGetComponent } from './gst-get/gst-get.component';
 import { GstEditComponent } from './gst-edit/gst-edit.component';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
+import { HttpClientModule } from '@angular/common/http';
+import { BusinessService } from './business.service';
 
 @NgModule({
   declarations: [
@@ -22,9 +23,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     AppRoutingModule,
     SlimLoadingBarModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ BusinessService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
