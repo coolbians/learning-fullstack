@@ -4,6 +4,7 @@ const businessRoutes = express.Router();
 
 let Business = require('../models/Business');
 
+
 // add business
 businessRoutes.route('/add').post(function (req, res) {
   let business = new Business(req.body);
@@ -38,20 +39,22 @@ businessRoutes.route('/edit/:id').get(function (req, res) {
 
 //  update business
 businessRoutes.route('/update/:id').post(function (req, res) {
-    Business.findById(req.params.id, function(err, next, business) {
-    if (!business)
-      return next(new Error('Could not load Document'));
-    else {
-        business.person_name = req.body.person_name;
-        business.business_name = req.body.business_name;
-        business.business_gst_number = req.body.business_gst_number;
 
-        business.save().then(business => {
-          res.json('Update complete');
+  console.log('attempting to update business')
+  Business.findById(req.params.id, function (err, business) {
+    if (!business)
+      return console.log(`Unable to update the document for _id:${req.params.id}`);
+    else {
+      business.person_name = req.body.person_name;
+      business.business_name = req.body.business_name;
+      business.business_gst_number = req.body.business_gst_number;
+
+      business.save().then(business => {
+        res.json('Update complete');
       })
-      .catch(err => {
-            res.status(400).send("Unable to update the database");
-      });
+        .catch(err => {
+          res.status(400).send("Unable to update the database");
+        });
     }
   });
 });
@@ -60,7 +63,7 @@ businessRoutes.route('/update/:id').post(function (req, res) {
 businessRoutes.route('/delete/:id').get(function (req, res) {
     Business.findByIdAndRemove({_id: req.params.id}, function(err, business){
         if(err) res.json(err);
-        else res.json('Successfully deleted');
+        else res.json(`${this.business.business_name} Successfully deleted`);
     });
 });
 
